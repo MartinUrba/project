@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+
+</head>
+<body>
+    <header>
+        <h1>Elektro firma</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'project-list' %}">Projects</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'user-list' %}">Registered Users</a></li>
+                    <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                    <button type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 My Website</p>
+    </footer>
+</body>
+</html>
