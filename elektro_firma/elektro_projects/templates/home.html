@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
-
 {% block content %}
-<h1>Welcome to My Website</h1>
-<p>This is the home page. Explore the website using the navigation menu above.</p>
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4">Vítejte u Elektro Firmy</h1>
+        <p class="lead">Poskytujeme kvalitní elektroinstalační služby s více než 20 lety zkušeností.</p>
+        <a href="{% url 'project-list' %}" class="btn btn-primary btn-lg">Naše projekty</a>
+        <a href="{% url 'about' %}" class="btn btn-outline-secondary btn-lg">O nás</a>
+    </div>
+</div>
 {% endblock %}

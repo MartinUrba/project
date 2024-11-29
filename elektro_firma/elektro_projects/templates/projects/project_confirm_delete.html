@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
-
-{% block title %}Confirm Delete{% endblock %}
+{% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Are you sure you want to delete the project "{{ object.name }}"?</h1>
-<form method="post">
+  <h1>Oprávněte smazání projektu: {{ object.name }}</h1>
+  <p>Opravdu chcete smazat tento projekt?</p>
+  <form method="post">
     {% csrf_token %}
-    <button type="submit">Confirm Delete</button>
-</form>
-<a href="{% url 'project-list' %}">Cancel</a>
+    <button type="submit">Ano, smazat</button>
+  </form>
+  <a href="{% url 'project-list' %}">Zpět na seznam projektů</a>
 {% endblock %}
+

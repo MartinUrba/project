@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'description', 'address', 'assigned_to']
+        fields = ['name', 'address', 'customer', 'assigned_persons']
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()  # Přidání pole pro email
