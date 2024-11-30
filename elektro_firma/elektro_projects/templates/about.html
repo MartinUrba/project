@@ -1,10 +1,57 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}About{% endblock %}
 
-{% block content %}
-<h1>O nás</h1>
-<p>Hledáte spolehlivého partnera pro elektroinstalace, obnovitelné energie popř
-E-mobilitu? Pak jste na správném místě! Elektro firmě vám nabízí řešení šitá na míru v oblasti chytré domácnosti, komplexních energetických koncepcí i účinných systémů ochrany před bleskem a uzemnění. Nechte se přesvědčit o našem kompetentním poradenství, kvalitním provedení a flexibilitě – jsme tu, abychom co nejlépe splnili vaše požadavky!</p>
+{% block extra_css %}
+<style>
+    body {
+        background-image: url("{% static 'images/electricity_background_about.jpg' %}");
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-position: center;
+        color: #f5f5f5; /* Světle šedá barva textu */
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Jemný stín pro lepší čitelnost */
+        position: relative;
+    }
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Poloprůhledná černá vrstva */
+        z-index: -1;
+    }
+    h1 {
+        font-weight: bold;
+        font-size: 3rem;
+        text-align: center;
+        margin-top: 20px;
+        color: #ffffff; /* Bílá barva pro nadpis */
+    }
+    p {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        margin: 20px auto;
+        text-align: justify;
+        max-width: 800px;
+        color: #f5f5f5; /* Světle šedá barva pro obsah */
+    }
+</style>
+{% endblock %}
 
+{% block content %}
+<div class="container text-center my-5">
+    <h1>O nás</h1>
+    <p>
+        Hledáte spolehlivého partnera pro elektroinstalace, obnovitelné energie popř.
+        E-mobilitu? Pak jste na správném místě! Elektro firmě vám nabízí řešení šitá na míru
+        v oblasti chytré domácnosti, komplexních energetických koncepcí i účinných systémů
+        ochrany před bleskem a uzemnění. Nechte se přesvědčit o našem kompetentním poradenství,
+        kvalitním provedení a flexibilitě – jsme tu, abychom co nejlépe splnili vaše požadavky!
+    </p>
+</div>
 {% endblock %}

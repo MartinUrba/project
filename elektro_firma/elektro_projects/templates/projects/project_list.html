@@ -1,69 +1,105 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .projects-page {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{% static 'images/electricity_background_projects.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        padding: 50px 20px;
+        border-radius: 10px;
+    }
+    .projects-page h2 {
+        color: #ffffff;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+        font-weight: bold;
+    }
+    .card {
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #343a40;
+    }
+    .card-text {
+        color: #495057;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<h2>Seznam projektů</h2>
-
-<form method="get" class="mb-3">
-    <div class="row">
-        <div class="col-md-4">
-            <select name="customer" class="form-select">
-                <option value="">Filtr podle zákazníka</option>
-                {% for customer in customers %}
-                    <option value="{{ customer.id }}" {% if request.GET.customer == customer.id|stringformat:"s" %}selected{% endif %}>{{ customer.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-4">
-            <select name="person" class="form-select">
-                <option value="">Filtr podle zaměstnance</option>
-                {% for person in persons %}
-                    <option value="{{ person.id }}" {% if request.GET.person == person.id|stringformat:"s" %}selected{% endif %}>{{ person.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-primary w-100">Filtruj</button>
-        </div>
+<div class="projects-page">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Seznam projektů</h2>
+        {% if user.is_authenticated %}
+            <a href="{% url 'project-create' %}" class="btn btn-success">+ Přidat nový projekt</a>
+        {% endif %}
     </div>
-</form>
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Jméno projektu</th>
-            <th>Adresa</th>
-            <th>Zákazník</th>
-            <th>Přidělené osoby</th>
-            <th>Akce</th>
-        </tr>
-    </thead>
-    <tbody>
+<!-- Filtrační formulář -->
+<div class="card p-3 mb-4">
+    <form method="get" class="row">
+        <div class="col-md-5 mb-2 mb-md-0">
+            <input
+                type="text"
+                name="customer"
+                class="form-control"
+                placeholder="Hledat podle zákazníka"
+                value="{{ request.GET.customer }}">
+        </div>
+        <div class="col-md-5 mb-2 mb-md-0">
+            <input
+                type="text"
+                name="assigned_to"
+                class="form-control"
+                placeholder="Hledat podle přidělené osoby"
+                value="{{ request.GET.assigned_to }}">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filtrovat</button>
+        </div>
+    </form>
+</div>
+
+<!-- Zobrazení projektů -->
+<div class="row">
+    {% if projects %}
         {% for project in projects %}
-        <tr>
-            <td>{{ project.name }}</td>
-            <td>{{ project.address }}</td>
-            <td>{{ project.customer.name }}</td>
-            <td>
-                <ul>
-                    {% for person in project.assigned_persons.all %}
-                        <li>{{ person.username }}</li>  <!-- Opraveno pro správné zobrazení jména osoby -->
-                    {% endfor %}
-                </ul>
-            </td>
-            <td>
-                <a href="{% url 'project-detail' project.id %}" class="btn btn-info btn-sm">Zobrazit</a>
-                {% if request.user == project.owner %}
-                    <a href="{% url 'project-edit' project.id %}" class="btn btn-warning btn-sm">Editovat</a>
-                    <a href="{% url 'project-delete' project.id %}" class="btn btn-danger btn-sm">Smazat</a>
-                {% endif %}
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5" class="text-center">Žádné projekty nenalezeny.</td>
-        </tr>
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm position-relative">
+                    <img
+                        src="{{ project.image.url }}"
+                        alt="Projekt foto"
+                        class="position-absolute"
+                        style="top: 10px; right: 10px; width: 80px; height: 80px; border-radius: 10px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.name }}</h5>
+                        <p class="card-text"><strong>Zákazník:</strong> {{ project.customer }}</p>
+                        <p class="card-text"><strong>Adresa:</strong> {{ project.address }}</p>
+                        <p class="card-text"><strong>Přidělené osoby:</strong>
+                            {% for user in project.assigned_to.all %}
+                                <span class="badge bg-info text-dark">{{ user.username }}</span>
+                            {% endfor %}
+                        </p>
+                        {% if user.is_authenticated %}
+                            <div class="d-flex justify-content-end">
+                                <a href="{% url 'project-edit' project.id %}" class="btn btn-warning btn-sm me-2">Editovat</a>
+                                <a href="{% url 'project-delete' project.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Opravdu chcete tento projekt smazat?')">Odstranit</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </tbody>
-</table>
-
+    {% else %}
+        <p class="text-center">Nebyly nalezeny žádné projekty odpovídající filtru.</p>
+    {% endif %}
+</div>
 {% endblock %}
+

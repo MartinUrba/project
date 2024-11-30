@@ -11,3 +11,33 @@ body {
     border: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+/* Globální nastavení pozadí */
+body {
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Domovská stránka */
+.home-page {
+    background-image: url('../images/electricity_background_home.jpg');
+    color: #ffffff;
+    text-shadow: 1px 1px 5px #000;
+    padding: 50px 0;
+}
+
+/* Stránka projektů */
+.projects-page {
+    background-image: url('../images/electricity_background_projects.jpg');
+    color: #ffffff;
+    text-shadow: 1px 1px 5px #000;
+    padding: 50px 0;
+}
+
+/* Stránka O nás */
+.about-page {
+    background-image: url('../images/electricity_background_about.jpg');
+    color: #ffffff;
+    text-shadow: 1px 1px 5px #000;
+    padding: 50px 0;
+}
