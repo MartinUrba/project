@@ -4,6 +4,14 @@
 <h2>{{ project.name }}</h2>
 <p><strong>Zákazník:</strong> {{ project.customer }}</p>
 <p><strong>Adresa:</strong> {{ project.address }}</p>
+
+<p><strong>Přidělené osoby:</strong></p>
+<ul>
+    {% for person in project.assigned_to.all %}
+        <li>{{ person.name }}</li>
+    {% endfor %}
+</ul>
+
 {% if user.is_authenticated %}
     <a href="{% url 'project-edit' project.id %}" class="btn btn-warning">Editovat</a>
     <a href="{% url 'project-delete' project.id %}" class="btn btn-danger" onclick="return confirm('Opravdu chcete tento projekt smazat?')">Smazat</a>

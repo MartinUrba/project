@@ -1,15 +1,20 @@
 from django import forms
 from .models import Project
+from people.models import Person
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+
 class ProjectForm(forms.ModelForm):
+    assigned_to = forms.ModelMultipleChoiceField(
+        queryset=Person.objects.all(),  # Výběr všech osob z modelu Person
+        widget=forms.CheckboxSelectMultiple  # Vizuální zobrazení checkboxů
+    )
+
     class Meta:
         model = Project
         fields = ['name', 'address', 'customer', 'assigned_to', 'image']
-        widgets = {
-            'assigned_to': forms.CheckboxSelectMultiple()
-        }
+
 
 class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, label="Jméno")

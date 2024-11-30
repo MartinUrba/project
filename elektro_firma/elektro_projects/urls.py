@@ -21,7 +21,7 @@ urlpatterns = [
     path('project/<int:pk>/delete/', ProjectDeleteView.as_view(), name='project-delete'),
 
     # Admin panel
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),  # Odkaz na admin panel
 
     # Zákazníci a osoby
     path('customers/', include('customers.urls')),

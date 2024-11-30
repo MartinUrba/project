@@ -32,16 +32,24 @@
     .btn-about:hover {
         background-color: rgba(0, 123, 255, 1); /* Plná modrá barva při najetí */
     }
+    .admin-link {
+        margin-top: 20px;
+        display: inline-block;
+        font-size: 1.1rem;
+        color: white;
+        text-decoration: underline;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="home-page text-center">
-        <h1 class="display-4">Vítejte u Elektro Firmy</h1>
+        <h1 class="display-4">Vítejte u Elektro Urban</h1>
         <p class="lead">Poskytujeme kvalitní elektroinstalační služby s více než 20 lety zkušeností.</p>
         <a href="{% url 'project-list' %}" class="btn btn-primary btn-lg">Naše projekty</a>
         <a href="{% url 'about' %}" class="btn btn-about btn-lg">O nás</a>
+
     </div>
 </div>
 {% endblock %}

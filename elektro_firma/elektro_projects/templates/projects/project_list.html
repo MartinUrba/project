@@ -19,7 +19,25 @@
         background: rgba(255, 255, 255, 0.9);
         border: none;
         border-radius: 8px;
-        overflow: hidden;
+        overflow: visible; /* Umožní přetékání obsahu karty */
+        position: relative; /* Umožní pozicování obrázku uvnitř karty */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card img {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        object-fit: cover;
+        transition: transform 0.3s ease, z-index 0.3s ease;
+        z-index: 1;
+    }
+    .card img:hover {
+        transform: scale(4);
+        z-index: 10;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     }
     .card-title {
         font-size: 1.25rem;
@@ -27,6 +45,15 @@
         color: #343a40;
     }
     .card-text {
+        color: #495057;
+    }
+    .assigned-person {
+        display: inline-block;
+        margin-right: 5px;
+        padding: 5px 10px;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        font-size: 0.9em;
         color: #495057;
     }
 </style>
@@ -42,7 +69,6 @@
     </div>
 </div>
 
-<!-- Filtrační formulář -->
 <div class="card p-3 mb-4">
     <form method="get" class="row">
         <div class="col-md-5 mb-2 mb-md-0">
@@ -67,26 +93,26 @@
     </form>
 </div>
 
-<!-- Zobrazení projektů -->
 <div class="row">
     {% if projects %}
         {% for project in projects %}
             <div class="col-md-6 mb-4">
-                <div class="card shadow-sm position-relative">
-                    <img
-                        src="{{ project.image.url }}"
-                        alt="Projekt foto"
-                        class="position-absolute"
-                        style="top: 10px; right: 10px; width: 80px; height: 80px; border-radius: 10px; object-fit: cover;">
+                <div class="card shadow-sm">
+                    {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="Projekt foto">
+                    {% else %}
+                        <img src="{% static 'images/default_project_image.jpg' %}" alt="Výchozí obrázek">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ project.name }}</h5>
                         <p class="card-text"><strong>Zákazník:</strong> {{ project.customer }}</p>
                         <p class="card-text"><strong>Adresa:</strong> {{ project.address }}</p>
-                        <p class="card-text"><strong>Přidělené osoby:</strong>
-                            {% for user in project.assigned_to.all %}
-                                <span class="badge bg-info text-dark">{{ user.username }}</span>
+                        <p class="card-text"><strong>Přidělené osoby:</strong></p>
+                        <div>
+                            {% for person in project.assigned_to.all %}
+                                <span class="assigned-person">{{ person.name }}</span>
                             {% endfor %}
-                        </p>
+                        </div>
                         {% if user.is_authenticated %}
                             <div class="d-flex justify-content-end">
                                 <a href="{% url 'project-edit' project.id %}" class="btn btn-warning btn-sm me-2">Editovat</a>
@@ -102,4 +128,3 @@
     {% endif %}
 </div>
 {% endblock %}
-
