@@ -19,8 +19,8 @@
         background: rgba(255, 255, 255, 0.9);
         border: none;
         border-radius: 8px;
-        overflow: visible; /* Umožní přetékání obsahu karty */
-        position: relative; /* Umožní pozicování obrázku uvnitř karty */
+        overflow: visible;
+        position: relative;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .card img {
@@ -50,11 +50,13 @@
     .assigned-person {
         display: inline-block;
         margin-right: 5px;
+        margin-bottom: 5px;
         padding: 5px 10px;
-        background-color: #f8f9fa;
+        background-color: #007bff; /* Modré pozadí */
+        color: #fff; /* Bílý text */
         border-radius: 12px;
         font-size: 0.9em;
-        color: #495057;
+        font-weight: bold;
     }
 </style>
 {% endblock %}
@@ -110,7 +112,7 @@
                         <p class="card-text"><strong>Přidělené osoby:</strong></p>
                         <div>
                             {% for person in project.assigned_to.all %}
-                                <span class="assigned-person">{{ person.name }}</span>
+                                <span class="assigned-person">{{ person.first_name }} {{ person.last_name }}</span>
                             {% endfor %}
                         </div>
                         {% if user.is_authenticated %}

@@ -1,13 +1,13 @@
 from django.db import models
 from django.urls import reverse
-from people.models import Person
+
 
 
 class Project(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     customer = models.CharField(max_length=255)
-    assigned_to = models.ManyToManyField(Person, related_name='projects')  # Propojení s Person
+    assigned_to = models.ManyToManyField('people.Person', related_name='projects')  # Zde vložte upravený řádek
     image = models.ImageField(upload_to='projects/images/', blank=True, null=True)
 
     def __str__(self):
